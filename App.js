@@ -5,8 +5,6 @@ import {Focus} from './src/features/focus/Focus'
 import Constants from 'expo-constants';
 
 
-
-
 export default function App() {
 
   const [focusSubject, setFocusSubject] = useState(null)
