@@ -1,13 +1,14 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { FontSize, Padding } from "../../utils/sizes";
+import { CountDown } from "../../components/CountDown";
 
 export const Timer = ({ subject }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Focusing on :</Text>
       <Text style={styles.subject}>{subject}</Text>
-      <Text style={styles.timer}>20:00</Text>
+      <CountDown min={"20"} />
     </View>
   );
 };
