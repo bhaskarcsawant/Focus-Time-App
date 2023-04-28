@@ -3,9 +3,11 @@ import { useState } from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import { TextInput } from "react-native-paper";
 
-export const RoundedButton = ({ title, size = 50 }) => {
+export const RoundedButton = ({ title, size = 50, onpress, data }) => {
   return (
-    <TouchableOpacity style={styles(size).button}>{title}</TouchableOpacity>
+    <TouchableOpacity style={styles(size).button} onPress={() => onpress(data)}>
+      <Text>{title}</Text>
+    </TouchableOpacity>
   );
 };
 
