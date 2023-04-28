@@ -3,17 +3,17 @@ import { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Focus } from "./src/features/focus/Focus";
 import Constants from "expo-constants";
+import { Timer } from "./src/features/timer/Timer";
 
 export default function App() {
-  const [focusSubject, setFocusSubject] = useState(null);
+  const [focusSubject, setFocusSubject] = useState("Garding");
   return (
     <View style={styles.container}>
       {focusSubject ? (
-        <Text>subject</Text>
+        <Timer subject={focusSubject} />
       ) : (
         <Focus addSubject={setFocusSubject} />
       )}
-      <Text>{focusSubject}</Text>
     </View>
   );
 }
@@ -21,8 +21,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     paddingTop: Constants.statusBarHeight,
     backgroundColor: "#ecf0f1",
+    alignItems: "center",
   },
 });
