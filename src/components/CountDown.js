@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 const MinToMilis = (min) => min * 1000 * 60;
 const FormatTime = (time) => (time < 10 ? `0${time}` : time);
 
-export const CountDown = ({ min, isPaused = true }) => {
+export const CountDown = ({ min, isPaused = true, onProgress }) => {
   const interval = React.useRef(null);
   const [milis, setMilis] = useState(MinToMilis(min));
   const Countdown = () => {
@@ -15,6 +15,7 @@ export const CountDown = ({ min, isPaused = true }) => {
         return time;
       }
       let timeLeft = time - 1000;
+      onProgress(timeLeft / MinToMilis(min));
       return timeLeft;
     });
   };
