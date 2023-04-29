@@ -4,6 +4,7 @@ export const FontSize = {
   lg: 22,
   xl: 36,
   xxl: 96,
+  xxxl: 126,
 };
 export const Padding = {
   sm: 7,
