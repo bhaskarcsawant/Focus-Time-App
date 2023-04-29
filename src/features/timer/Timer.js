@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import { FontSize, Padding } from "../../utils/sizes";
 import { CountDown } from "../../components/CountDown";
@@ -6,11 +6,22 @@ import { ProgressBar } from "react-native-paper";
 
 export const Timer = ({ subject }) => {
   const [isStarted, setIsStarted] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [timerCount, setTimerCount] = useState(1);
   const [progress, setProgress] = useState(1);
+  const changeTime = (min) => {
+    setTimerCount(min);
+  };
   const onProgress = (prog) => {
     setProgress(prog);
   };
+  useEffect(() => {
+    if (isStarted) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [isStarted]);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Focusing on :</Text>
@@ -27,20 +38,23 @@ export const Timer = ({ subject }) => {
       />
       <View style={styles.minibtContainer}>
         <TouchableOpacity
-          style={styles.MiniButton}
-          onPress={() => setTimerCount(10)}
+          style={disabled ? styles.MiniButtonOff : styles.MiniButton}
+          disabled={disabled}
+          onPress={() => changeTime(10)}
         >
           <Text style={styles.StartTitle}>10</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.MiniButton}
-          onPress={() => setTimerCount(15)}
+          style={disabled ? styles.MiniButtonOff : styles.MiniButton}
+          disabled={disabled}
+          onPress={() => changeTime(15)}
         >
           <Text style={styles.StartTitle}>15</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.MiniButton}
-          onPress={() => setTimerCount(20)}
+          style={disabled ? styles.MiniButtonOff : styles.MiniButton}
+          disabled={disabled}
+          onPress={() => changeTime(20)}
         >
           <Text style={styles.StartTitle}>20</Text>
         </TouchableOpacity>
@@ -107,6 +121,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 20,
     backgroundColor: "#b8b6b2",
+    // marginTop:120,
+  },
+  MiniButtonOff: {
+    borderRadius: 50,
+    borderColor: "black",
+    borderWidth: 3,
+    width: 80,
+    height: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 20,
+    backgroundColor: "#e8e7e6",
+    opacity: 0.5,
     // marginTop:120,
   },
   ExitButton: {

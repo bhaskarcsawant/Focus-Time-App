@@ -21,7 +21,14 @@ export const CountDown = ({ min, isPaused = true, onProgress }) => {
   };
 
   useEffect(() => {
-    if (isPaused) return;
+    setMilis(MinToMilis(min));
+  }, [min]);
+
+  useEffect(() => {
+    if (isPaused) {
+      if (interval.current) clearInterval(interval.current);
+      return;
+    }
     interval.current = setInterval(Countdown, 1000);
     return () => clearInterval(interval.current);
   }, [isPaused]);
