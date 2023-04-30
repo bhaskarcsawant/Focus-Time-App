@@ -1,6 +1,12 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  View,
+  StyleSheet,
+  AsyncStorage,
+} from "react-native";
 import { Focus } from "./src/features/focus/Focus";
 import Constants from "expo-constants";
 import { Timer } from "./src/features/timer/Timer";
@@ -26,6 +32,30 @@ export default function App() {
   const clearFocus = () => {
     setFocusSubject([]);
   };
+  const saveFocusHistory = async () => {
+    try {
+      await AsyncStorage.setItem("focusHistory", JSON.stringify(focusHistory));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const loadFocusHistory = async () => {
+    try {
+      let history = await AsyncStorage.getItem("focusHistory");
+      if (history && JSON.parse(history).length) {
+        setfocusHistory(JSON.parse(history));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    loadFocusHistory();
+  }, []);
+
+  useEffect(() => {
+    saveFocusHistory();
+  }, [focusHistory]);
   return (
     <View style={styles.container}>
       {focusSubject.length ? (
