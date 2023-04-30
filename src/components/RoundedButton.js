@@ -5,7 +5,10 @@ import { TextInput } from "react-native-paper";
 
 export const RoundedButton = ({ title, size = 50, onpress, data }) => {
   return (
-    <TouchableOpacity style={styles(size).button} onPress={() => onpress(data)}>
+    <TouchableOpacity
+      style={styles(size).button}
+      onPress={() => (data ? onpress([data, false]) : null)}
+    >
       <Text>{title}</Text>
     </TouchableOpacity>
   );

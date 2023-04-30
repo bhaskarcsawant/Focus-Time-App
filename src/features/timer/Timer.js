@@ -12,7 +12,7 @@ import { CountDown } from "../../components/CountDown";
 import { ProgressBar } from "react-native-paper";
 import { useKeepAwake } from "expo-keep-awake";
 
-export const Timer = ({ subject }) => {
+export const Timer = ({ subject, resetFocus, clearFocus }) => {
   useKeepAwake();
   const [isStarted, setIsStarted] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -37,6 +37,7 @@ export const Timer = ({ subject }) => {
     setTimerCount(1);
     setProgress(1);
     setIsStarted(false);
+    resetFocus();
   };
   useEffect(() => {
     if (isStarted) {
@@ -48,7 +49,7 @@ export const Timer = ({ subject }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Focusing on :</Text>
-      <Text style={styles.subject}>{subject}</Text>
+      <Text style={styles.subject}>{subject[0]}</Text>
       <CountDown
         min={timerCount}
         isPaused={!isStarted}
@@ -89,11 +90,8 @@ export const Timer = ({ subject }) => {
       >
         <Text style={styles.StartTitle}>{isStarted ? "Stop" : "Start"}</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.ExitButton}
-        onPress={() => setIsStarted(!isStarted)}
-      >
-        <Text style={styles.StartTitle}>Exit</Text>
+      <TouchableOpacity style={styles.ExitButton} onPress={() => clearFocus()}>
+        <Text style={styles.StartTitle}>Clear</Text>
       </TouchableOpacity>
     </View>
   );
