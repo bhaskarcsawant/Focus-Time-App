@@ -1,19 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  View,
+  StyleSheet,
+  Vibration,
+  Platform,
+} from "react-native";
 import { FontSize, Padding } from "../../utils/sizes";
 import { CountDown } from "../../components/CountDown";
 import { ProgressBar } from "react-native-paper";
+import { useKeepAwake } from "expo-keep-awake";
 
 export const Timer = ({ subject }) => {
+  useKeepAwake();
   const [isStarted, setIsStarted] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [timerCount, setTimerCount] = useState(1);
+  const [timerCount, setTimerCount] = useState(0.1);
   const [progress, setProgress] = useState(1);
   const changeTime = (min) => {
     setTimerCount(min);
   };
   const onProgress = (prog) => {
     setProgress(prog);
+  };
+  const vibrate = () => {
+    if (Platform.OS === "ios") {
+      const interval = setInterval(() => Vibration.vibrate(), 1000);
+      setTimeout(() => clearInterval(interval), 10000);
+    } else {
+      Vibration.vibrate("10s");
+    }
+  };
+  const onEnd = () => {
+    vibrate();
+    setTimerCount(1);
+    setProgress(1);
+    setIsStarted(false);
   };
   useEffect(() => {
     if (isStarted) {
@@ -30,6 +53,7 @@ export const Timer = ({ subject }) => {
         min={timerCount}
         isPaused={!isStarted}
         onProgress={onProgress}
+        onEnd={onEnd}
       />
       <ProgressBar
         progress={progress}
